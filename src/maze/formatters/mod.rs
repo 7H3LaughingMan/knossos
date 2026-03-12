@@ -1,16 +1,21 @@
 //! Formatters for converting a generated maze into other data types
 
 mod ascii;
+mod cell_grid;
 mod game_map;
 mod image;
 
-use crate::maze::grid::Grid;
+use crate::{
+    maze::grid::{Grid, cell::Cell},
+    utils::types::Coords,
+};
 use ::image::RgbImage;
 use std::{fs::File, io::Write};
 
 pub use self::image::Image;
 use super::errors::MazeSaveError;
 pub use ascii::{AsciiNarrow, AsciiBroad};
+pub use cell_grid::CellGrid;
 pub use game_map::GameMap;
 
 /// A trait for maze formatters
@@ -97,6 +102,35 @@ impl Saveable for StringWrapper {
                 path.display()
             )),
         }
+    }
+}
+
+pub struct GridWrapper {
+    width: usize,
+    height: usize,
+    cells: Vec<Cell>,
+}
+
+impl GridWrapper {
+    pub const fn height(&self) -> usize {
+        self.height
+    }
+
+    pub const fn width(&self) -> usize {
+        self.width
+    }
+
+    pub fn is_carved(&self, coords: Coords, direction: Cell) -> bool {
+        let (x, y) = coords;
+        self.cells[y * self.width + x].contains(direction)
+    }
+}
+
+impl Saveable for GridWrapper {
+    fn save(&self, _path: &str) -> Result<String, MazeSaveError> {
+        Err(MazeSaveError {
+            reason: String::from("Cannot save GridWrapper"),
+        })
     }
 }
 
