@@ -15,7 +15,7 @@ pub mod formatters;
 
 pub use algorithms::*;
 pub use builder::OrthogonalMazeBuilder;
-pub use formatters::{AsciiNarrow, AsciiBroad, GameMap, Image};
+pub use formatters::{AsciiNarrow, AsciiBroad, GameMap, Image, CellGrid};
 pub use grid::cell::Cell;
 pub use errors::MazeSaveError;
 pub use maze::OrthogonalMaze;
