@@ -1,7 +1,8 @@
+use crate::utils::types::Coords;
 use super::{
     errors::MazeSaveError,
     formatters::{Formatter, Saveable},
-    grid::Grid,
+    grid::{Grid, cell::Cell},
     validate::validate,
 };
 use std::fmt;
@@ -20,6 +21,18 @@ impl OrthogonalMaze {
         OrthogonalMaze {
             grid: Grid::new(width, height),
         }
+    }
+
+    pub const fn height(&self) -> usize {
+        self.grid.height()
+    }
+
+    pub const fn width(&self) -> usize {
+        self.grid.width()
+    }
+
+    pub fn is_carved(&self, coords: Coords, direction: Cell) -> bool {
+        self.grid.is_carved(coords, direction)
     }
 
     /// Returns a mutable ref to a grid
